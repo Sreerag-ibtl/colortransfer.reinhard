@@ -27,6 +27,7 @@ def _transform(
     mean: Callable[[NDArray], float],
     subtract: Callable[[NDArray, NDArray], NDArray],
     multiply: Callable[[NDArray, float], NDArray],
+    add: Callable[[NDArray, float], NDArray],
 ) -> NDArray:
     """Transform arrays.
 
@@ -43,9 +44,11 @@ def _transform(
     std_source = std(source)
     std_target = std(target)
     mean_source = mean(source)
+    mean_target = mean(target)
     difference = subtract(source, mean_source)
     ratio = std_target.__truediv__(std_source)
-    return multiply(ratio, difference)
+    product = multiply(ratio, difference)
+    return add(product, mean_target)
 
 
 transform = partial(
