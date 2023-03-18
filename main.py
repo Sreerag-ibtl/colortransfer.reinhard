@@ -75,4 +75,4 @@ lab_result = merge(
 
 bgr_result = cvtColor(lab_result, COLOR_LAB2BGR)
 
-imwrite(arguments.result, bgr_result)
+imwrite(arguments.result, bgr_result * 255)
