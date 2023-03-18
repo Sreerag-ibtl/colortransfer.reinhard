@@ -45,10 +45,10 @@ def _transform(
     std_target = std(target)
     mean_source = mean(source)
     mean_target = mean(target)
-    difference = subtract(source, mean_source)
+    difference = subtract(target, mean_target)
     ratio = std_target.__truediv__(std_source)
     product = multiply(ratio, difference)
-    return add(product, mean_target)
+    return add(product, mean_source)
 
 
 transform = partial(
