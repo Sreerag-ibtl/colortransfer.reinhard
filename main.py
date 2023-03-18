@@ -13,7 +13,6 @@ import sys
 from argparse import ArgumentParser, Namespace
 
 from cv2 import COLOR_LAB2BGR, cvtColor, imread, imwrite, merge
-from numpy import float32
 from numpy.typing import NDArray
 
 from colortransfer import get_lab_split, transform
@@ -51,9 +50,9 @@ target = imread(arguments.target)
 l_source, a_source, b_source = get_lab_split(source)
 l_target, a_target, b_target = get_lab_split(target)
 
-l_result = transform(l_source.astype(float32), l_target.astype(float32))
-a_result = transform(a_source.astype(float32), a_target.astype(float32))
-b_result = transform(b_source.astype(float32), b_target.astype(float32))
+l_result = transform(l_source, l_target)
+a_result = transform(a_source, a_target)
+b_result = transform(b_source, b_target)
 
 logger.debug("l_result shape", l_result.shape)
 logger.debug("a_result shape", a_result.shape)
@@ -67,6 +66,6 @@ lab_result = merge(
     )  # ####
 )
 
-bgr_result = cvtColor(lab_result, COLOR_LAB2BGR)
+bgr_result = cvtColor(lab_result.astype("uint8"), COLOR_LAB2BGR)
 
-imwrite(arguments.result, bgr_result * 255)
+imwrite(arguments.result, bgr_result)
