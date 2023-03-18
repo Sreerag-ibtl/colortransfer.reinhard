@@ -8,6 +8,8 @@ Usage:
 """
 
 # fmt: off
+import logging
+import sys
 from argparse import ArgumentParser, Namespace
 
 from cv2 import COLOR_LAB2BGR, cvtColor, imread, imwrite, merge
@@ -32,8 +34,15 @@ argument_parser.add_argument(
 argument_parser.add_argument(
     "--result", help="Path to result image.", required=True
 )  # ####
+argument_parser.add_argument(
+    "--log_level", help="Log level", default=20, type=int
+)  # ####
 
 arguments = argument_parser.parse_args()
+
+logger = logging.getLogger(__name__)
+logger.setLevel(arguments.log_level)
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 source = imread(arguments.source)
 target = imread(arguments.target)
@@ -44,6 +53,10 @@ l_target, a_target, b_target = get_lab_split(target)
 l_result = transform(l_source, l_target)
 a_result = transform(a_source, a_target)
 b_result = transform(b_source, b_target)
+
+logger.debug("l_result shape", l_result.shape)
+logger.debug("a_result shape", a_result.shape)
+logger.debug("b_result shape", b_result.shape)
 
 lab_result = merge((l_result, a_result, b_result))
 
