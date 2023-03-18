@@ -10,7 +10,7 @@ Usage:
 # fmt: off
 from typing import Callable
 
-from np.typing import NDArray
+from numpy.typing import NDArray
 
 # fmt: on
 
