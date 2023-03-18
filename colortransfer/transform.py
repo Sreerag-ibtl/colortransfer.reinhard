@@ -8,14 +8,19 @@ Usage:
 """
 
 # fmt: off
+from functools import partial
 from typing import Callable
 
+from numpy import mul, sub
 from numpy.typing import NDArray
+
+from colortransfer.mean import mean
+from colortransfer.std import std
 
 # fmt: on
 
 
-def transform(
+def _transform(
     source: NDArray,
     target: NDArray,
     std: Callable[[NDArray], float],
@@ -41,3 +46,6 @@ def transform(
     difference = subtract(source, mean_source)
     ratio = std_target.__truediv__(std_source)
     return multiply(ratio, difference)
+
+
+transform = partial(_transform, std=std, mean=mean, subtract=sub, multiply=mul)
