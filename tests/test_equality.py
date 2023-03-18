@@ -16,7 +16,7 @@ import pytest
 from cv2 import imread
 from numpy.typing import NDArray
 
-from colortransfer import get_lab_split, mean, std
+from colortransfer import get_lab_split, mean, std, transform
 
 # fmt: on
 
@@ -41,8 +41,13 @@ expected_mean: float
 calculated_mean: float
 expected_std: float
 calculated_std: float
+expected_channel: NDArray
+calculated_channel: NDArray
+target_image_path: str
 
 im_path = "tests/test.jpg"
+source_image_path = "tests/test.jpg"
+target_image_path = "tests/scream.jpg"
 expected_mean = 1.0
 expected_std = 0.816496580927726
 in_array = np.array([0, 1, 2])
@@ -54,18 +59,25 @@ test_case = TestCase()
 assert_equal = test_case.assertEqual
 
 image = imread(im_path)
+target = imread(target_image_path)
 im_height, im_width = image.shape[:2]
 
 lab = get_lab_split(image)
+lab_target = get_lab_split(target)
 
 l_height, l_width = lab[0].shape
 a_height, a_width = lab[1].shape
 b_height, b_width = lab[2].shape
 
+l_new = transform(lab[0], lab_target[0])
+l_new_height, l_new_width = l_new.shape[:2]
+
 
 @pytest.mark.parametrize(
     "lhs, rhs, assert_equality",
     (
+        (l_new_height, l_height, assert_equal),
+        (l_new_width, l_new_width, assert_equal),
         (calculated_std, expected_std, assert_equal),
         (calculated_mean, expected_mean, assert_equal),
         (
