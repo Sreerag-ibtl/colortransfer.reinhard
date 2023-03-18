@@ -11,7 +11,7 @@ Usage:
 from functools import partial
 from typing import Callable
 
-from numpy import mul, sub
+from numpy import multiply, sub
 from numpy.typing import NDArray
 
 from colortransfer.mean import mean
@@ -48,4 +48,6 @@ def _transform(
     return multiply(ratio, difference)
 
 
-transform = partial(_transform, std=std, mean=mean, subtract=sub, multiply=mul)
+transform = partial(
+    _transform, std=std, mean=mean, subtract=sub, multiply=multiply
+)  # #####
