@@ -42,8 +42,8 @@ def _transform(
     """
     std_source = std(source)
     std_target = std(target)
-    mean_target = mean(target)
-    difference = subtract(target, mean_target)
+    mean_source = mean(source)
+    difference = subtract(target, mean_source)
     ratio = std_target.__truediv__(std_source)
     product = multiply(ratio, difference)
     return product
