@@ -51,9 +51,9 @@ target = imread(arguments.target)
 l_source, a_source, b_source = get_lab_split(source)
 l_target, a_target, b_target = get_lab_split(target)
 
-l_result = transform(l_source, l_target)
-a_result = transform(a_source, a_target)
-b_result = transform(b_source, b_target)
+l_result = transform(l_source, l_target).astype(float32).clip(0, 255)
+a_result = transform(a_source, a_target).astype(float32).clip(0, 255)
+b_result = transform(b_source, b_target).astype(float32).clip(0, 255)
 
 logger.debug("l_result shape", l_result.shape)
 logger.debug("a_result shape", a_result.shape)
@@ -61,9 +61,9 @@ logger.debug("b_result shape", b_result.shape)
 
 lab_result = merge(
     (
-        l_result.astype(float32),
-        a_result.astype(float32),
-        b_result.astype(float32),
+        l_result,
+        a_result,
+        b_result,
     )  # ####
 )
 
