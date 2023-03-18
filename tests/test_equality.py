@@ -11,10 +11,11 @@ Usage:
 from typing import Any, Callable
 from unittest import TestCase
 
-from colortransfer import get_lab_split
+import pytest
 from cv2 import imread
 from numpy.typing import NDArray
-from pytest.mark import parametrize
+
+from colortransfer import get_lab_split
 
 # fmt: on
 
@@ -43,14 +44,14 @@ assert_equal = test_case.assertEqual
 image = imread(im_path)
 im_height, im_width = image.shape[:2]
 
-l, a, b = get_lab_split(image=image)
+lab = get_lab_split(image)
 
-l_height, l_width = l.shape
-a_height, a_width = a.shape
-b_height, b_width = b.shape
+l_height, l_width = lab[0].shape
+a_height, a_width = lab[1].shape
+b_height, b_width = lab[2].shape
 
 
-@parametrize(
+@pytest.mark.parametrize(
     "lhs, rhs, assert_equality",
     (
         (

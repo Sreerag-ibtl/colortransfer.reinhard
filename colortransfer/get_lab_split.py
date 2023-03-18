@@ -17,7 +17,7 @@ from numpy.typing import NDArray
 # fmt: on
 
 bgr_to_lab: Callable[[NDArray], NDArray]
-get_lab_split: Callable[[NDArray], Tuple[NDArray]]
+get_lab_split: Callable[[NDArray], Tuple[NDArray, NDArray, NDArray]]
 
 bgr_to_lab = partial(cvtColor, code=COLOR_BGR2LAB)
 
@@ -25,8 +25,8 @@ bgr_to_lab = partial(cvtColor, code=COLOR_BGR2LAB)
 def _get_lab_split(
     image: NDArray,
     bgr_to_lab: Callable[[NDArray], NDArray],
-    split: Callable[[NDArray], Tuple[NDArray]],
-) -> Tuple[NDArray]:
+    split: Callable[[NDArray], Tuple[NDArray, NDArray, NDArray]],
+) -> Tuple[NDArray, NDArray, NDArray]:
     """Get image split into L, A, B arrays.
 
     Get image split into L, A, B arrays.
