@@ -10,8 +10,11 @@ Usage:
 # fmt: off
 from typing import Callable
 
+import numpy as np
 from numpy.typing import NDArray
 
 # fmt: on
 
 std: Callable[[NDArray], float]
+
+std = np.std
