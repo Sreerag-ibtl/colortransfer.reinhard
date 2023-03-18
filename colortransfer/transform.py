@@ -11,7 +11,7 @@ Usage:
 from functools import partial
 from typing import Callable
 
-from numpy import add, multiply, subtract
+from numpy import multiply, subtract
 from numpy.typing import NDArray
 
 from colortransfer.mean import mean
@@ -27,7 +27,6 @@ def _transform(
     mean: Callable[[NDArray], float],
     subtract: Callable[[NDArray, NDArray], NDArray],
     multiply: Callable[[NDArray, float], NDArray],
-    add: Callable[[NDArray, float], NDArray],
 ) -> NDArray:
     """Transform arrays.
 
@@ -43,12 +42,11 @@ def _transform(
     """
     std_source = std(source)
     std_target = std(target)
-    mean_source = mean(source)
     mean_target = mean(target)
     difference = subtract(target, mean_target)
     ratio = std_target.__truediv__(std_source)
     product = multiply(ratio, difference)
-    return add(product, mean_source)
+    return product
 
 
 transform = partial(
@@ -57,5 +55,4 @@ transform = partial(
     mean=mean,
     subtract=subtract,
     multiply=multiply,
-    add=add,  # ####
 )  # #####
