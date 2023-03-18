@@ -79,8 +79,8 @@ l_new_height, l_new_width = l_new.shape[:2]
 @pytest.mark.parametrize(
     "lhs, rhs, assert_equality",
     (
-        (l_new_height, lab_target_height, assert_equal),
-        (l_new_width, lab_target_width, assert_equal),
+        (l_new_height, l_height, assert_equal),
+        (l_new_width, l_width, assert_equal),
         (calculated_std, expected_std, assert_equal),
         (calculated_mean, expected_mean, assert_equal),
         (
